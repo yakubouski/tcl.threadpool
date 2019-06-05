@@ -46,15 +46,34 @@ namespace tcl {
 				std::make_index_sequence<tSize>());
 		}
 	public:
+		/*
+		* InitialWorkers - number of persistent workers
+		* MaxWorkers - number of maximum workers (auto scale up to)
+		* CoreBinding - binding threads to cores list
+		* CoreExclude - exclude core from binding
+		*/
 		threadpool(size_t InitialWorkers, size_t MaxWorkers, const std::vector<size_t>& CoreBinding = {}, const std::vector<size_t>& CoreExclude = {});
 		~threadpool();
 
+		/*
+		* Core binding list
+		*/
 		inline const std::vector<size_t>& cores() const { return PoolWorkersBinding; }
 
+		/*
+		* Wait when all task is processed and all threads down. 
+		* After call join() no any task will be added
+		*/
 		void join();
 
+		/*
+		* Get current pool status
+		*/
 		void stats(size_t& NumWorkers, size_t& NumAwaitingTasks, size_t& NumBusy);
 
+		/*
+		* Enqueue job with class handler
+		*/
 		template<class CLASS, class... Args>
 		void enqueue(Args&& ... args) {
 
@@ -75,6 +94,9 @@ namespace tcl {
 			PoolCondition.notify_one();
 		}
 
+		/*
+		* Enqueue job with lambda or function handler
+		*/
 		template<class FN, class... Args>
 		auto enqueue(FN&& f, Args&& ... args) -> std::future<typename std::result_of<FN(Args...)>::type> {
 
