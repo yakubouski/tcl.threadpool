@@ -20,7 +20,7 @@ int main()
 {
     printf("hello from threadpool!\n");
 
-	tcl::threadpool pool(5,10);
+	cthreadpool pool(5,10);
 
 	pool.enqueue<class_handle>(10,"Hello");
 
