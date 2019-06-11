@@ -76,7 +76,6 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="example.cpp" />
-    <ClCompile Include="src\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\threadpool.h" />
